@@ -55,7 +55,7 @@ jobs:
           version: "master"
           #src: ""
           # my graph 
-          src: "dnote"
+          src: "dnotes"
           dest: "www"
           trace: true 
       - name: add a nojekyll file
