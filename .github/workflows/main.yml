@@ -21,10 +21,43 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+#      - uses: shaunco/ssh-agent@git-repo-mapping # this action will configure git to use the right SSH key per each repository. 
+#        with:
+#          ssh-private-key: |
+#            ${{ secrets.SUBMODULE_1_SSH_PRIVATE_KEY}}
+##            ${{ secrets.SUBMODULE_2_SSH_PRIVATE_KEY}}
+#          repo-mappings: |
+#            github.com/username_or_organization/submodule1_repo_name
+##            github.com/username_or_organization/submodule2_repo_name
+      
+#      - uses: actions/checkout@v2
+#        with:
+#          submodules: recursive # this is important not to forget
+
+# https://github.com/webfactory/ssh-agent/pull/92/commits/11575b28b8f957525920d95d1a764d6209fba4f0
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: |
+                ${{ secrets.SS }}
+                #${{ secrets.SSH_SUBMODULE1 }}
+#                ${{ secrets.SSH_SUBMODULE2 }}  # etc.
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
+        
       - name: Logseq Publish 🚩
         uses: pengx17/logseq-publish@main
+        # in ubunt, mkdir /workspace/dest; run docker container, map workspace to /home/logseq/graph, run logseq export from srcdnote to dest dir. 
+        # 
+ 
         with:
           version: "master"
+          #src: ""
+          # my graph 
+          src: "dnote"
+          dest: "www"
+          trace: true 
       - name: add a nojekyll file
         run: touch $GITHUB_WORKSPACE/www/.nojekyll
       - name: Deploy 🚀
