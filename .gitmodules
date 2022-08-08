@@ -1,0 +1,3 @@
+[submodule "dnotes"]
+	path = dnotes
+	url = git@github.com:inevity/graph.git
