@@ -44,6 +44,9 @@ jobs:
 #                ${{ secrets.SSH_SUBMODULE2 }}  # etc.
       - name: Checkout submodules
         run: git submodule update --init --recursive
+      - name: update submodels 
+        run: git submodule update --remote --merge
+    
 
         
       - name: Logseq Publish 🚩
